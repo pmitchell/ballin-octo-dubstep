@@ -1,0 +1,16 @@
+UnityLockfile
+Assets/Standard Assets
+Temp
+~*
+.*~
+Library
+*.tif
+*.meta
+*.FBX
+*.cubemap
+*.psd
+*.wav
+*.unity
+*.prefab
+*.tga
+*.png
