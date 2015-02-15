@@ -1,12 +1,20 @@
 ﻿#pragma strict
 
-@script RequireComponent(SpriteRenderer);
-
 @System.NonSerialized
 public var oLeft : Tiling;
 
 @System.NonSerialized
 public var oRight : Tiling;
+
+enum DEVIATION {
+	DOWN,
+	UP
+}
+
+enum DIRECTION {
+	LEFT,
+	RIGHT
+}
 
 function Start () 
 {
@@ -20,79 +28,57 @@ function OnBecameVisible ()
 {
 	if (!oLeft)
 	{
-		oLeft = CreateBuddy( "left" );
+		oLeft = CreateBuddy( DIRECTION.LEFT );
 	}
 	
 	if (!oRight)
 	{
-		oRight = CreateBuddy( "right" );
+		oRight = CreateBuddy( DIRECTION.RIGHT );
 	}
 }
 
-function CreateBuddy ( strDirection ) : Tiling
+function CreateBuddy ( cDirection : DIRECTION ) : Tiling
 {
 	Debug.Log("Tiling::CreateBuddy");
 	var oBuddy : Tiling = Tiling.Instantiate(this, this.transform.position, this.transform.rotation);
+	var cDeviation : DEVIATION;
 	
 	if (Random.value < 0.1) 
 	{
-		strDirection += "Deviate";
-		
 		if (Random.value < 0.5)
 		{
-			strDirection += "Down";
+			cDeviation = DEVIATION.DOWN;
 		}
 		else 
 		{
-			strDirection += "Up";
+			cDeviation = DEVIATION.UP;
 		}
 	}
 	
-	// TODO: Select texture smarter I guess
-	oBuddy.renderer.material.mainTexture = Tiling.GetMaterial();
-
-	switch(strDirection) 
+	switch(cDirection) 
 	{
-		case "left":
+		case DIRECTION.LEFT:
 			oBuddy.transform.position.x -= this.renderer.bounds.size.x;
 			oBuddy.oRight = this;
 			break;
-		case "right":
+		case DIRECTION.RIGHT:
 			oBuddy.transform.position.x += this.renderer.bounds.size.x;
 			oBuddy.oLeft = this;
 			break;
-			
-		case "leftDeviateDown":
+	}
+	
+	switch(cDeviation)
+	{
+		case DEVIATION.DOWN:
 			oBuddy.transform.position.y -= this.renderer.bounds.size.y;
-			oBuddy.oRight = this;
 			break;
-		case "leftDeviateUp":
+		case DEVIATION.UP:
 			oBuddy.transform.position.y += this.renderer.bounds.size.y;
-			oBuddy.oRight = this;
 			break;
 			
-		case "rightDeviateDown":
-			oBuddy.transform.position.y -= this.renderer.bounds.size.y;
-			oBuddy.oLeft = this;
-			break;
-		case "rightDeviateUp":
-			oBuddy.transform.position.y += this.renderer.bounds.size.y;
-			oBuddy.oLeft = this;
-			break;
-		
 		default:
 			break;
 	}
 
 	return oBuddy;
-}
-
-static function GetMaterial() : Texture
-{
-	var textures : Object[] = Resources.LoadAll("Tiles/Sprites", Texture);
-	Debug.Log("Textures: " + textures.Length);
-
-    var texture : Texture = textures[Random.Range(0, textures.Length)];
-	
-	return texture;
 }
