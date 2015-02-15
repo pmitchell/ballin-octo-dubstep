@@ -15,7 +15,7 @@ function GetTexture() : Texture
 	var textures : Object[] = Resources.LoadAll(this.strResourcePath, Texture);
 	Debug.Log("Textures: " + textures.Length);
 
-    var texture : Texture = textures[Random.Range(0, textures.Length)];
+    var texture : Texture = textures[Random.Range(0, textures.Length)] as Texture;
 	
 	return texture;
 }

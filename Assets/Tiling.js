@@ -18,13 +18,26 @@ enum DIRECTION {
 
 function Start () 
 {
+	var that = this;
+	/*
+	var fnClosure : Function;
+	fnClosure = function (a : String) : void{
+		that.EnsureBuddies();
+		};*/
+	/*
+	var oMonoBehaviours : MonoBehaviour[] = this.GetComponentsInChildren(MonoBehaviour) as MonoBehaviour[];
+	for (oMonoBehaviour in oMonoBehaviours)
+	{
+		//oMonoBehaviour.
+	}*/
 }
 
 function Update () 
 {
+	
 }
 
-function OnBecameVisible ()
+function EnsureBuddies()
 {
 	if (!oLeft)
 	{
