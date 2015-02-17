@@ -34,16 +34,17 @@ public class Tiling : MonoBehaviour
 		LEFT,
 		RIGHT
 	}
-	
-	void Start () 
+
+	void Awake ()
 	{
-		Debug.Log ("Tiling::Start");
 		/*
 		Closure fnClosure;
 		Tiling that = this;
 		fnClosure = EnsureBuddies;
 		*/
 		childRenderer = this.GetComponentInChildren<Renderer> ();
+		if (childRenderer.isVisible)
+			EnsureBuddies ();
 	}
 
 	void Update()
@@ -59,7 +60,6 @@ public class Tiling : MonoBehaviour
 	
 	protected void EnsureBuddies()
 	{
-		Debug.Log ("Tiling::EnsureBuddies");
 		if (!oLeft)
 		{
 			oLeft = CreateBuddy( DIRECTION.LEFT );
@@ -73,7 +73,6 @@ public class Tiling : MonoBehaviour
 	
 	protected Tiling CreateBuddy ( DIRECTION cDirection)
 	{
-		Debug.Log("Tiling::CreateBuddy");
 		Tiling oBuddy = Tiling.Instantiate(this, this.transform.position, this.transform.rotation) as Tiling;
 		DEVIATION cDeviation = DEVIATION.NONE;
 		
